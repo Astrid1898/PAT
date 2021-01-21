@@ -1,31 +1,60 @@
 #include <iostream>
-#include <string>
 using namespace std;
 int main()
 {
-    int n;
-    cin >> n;
-    string max_name(""), max_id(""), min_name(""), min_id("");
-    unsigned int max_score(0), min_score(101);
-    for (unsigned int i = 0; i < n; i++)
+    int k;
+    cin >> k;
+    int a[k];
+    int b = 0;
+    int i = 0;
+    while (i < k)
     {
-        string name, id;
-        unsigned int score;
-        cin >> name >> id >> score;
-        if (score > max_score)
+        cin >> a[i];
+        i++;
+    }
+    for (i = 0; i < k; i++)
+    {
+        b = a[i];
+        while (b != 1 && b != 0)
         {
-            max_name = name;
-            max_score = score;
-            max_id = id;
-        }
-        if (score < min_score)
-        {
-            min_score = score;
-            min_name = name;
-            min_id = id;
+            if (b % 2)
+            {
+                b = (3 * b + 1) / 2;
+                for (int j = 0; j < k; j++)
+                {
+                    if (a[j] == b)
+                        a[j] = 0;
+                }
+            }
+            else
+            {
+                b = b / 2;
+                for (int j = 0; j < k; j++)
+                {
+                    if (a[j] == b)
+                        a[j] = 0;
+                }
+            }
         }
     }
-    cout << max_name << " " << max_id << endl;
-    cout << min_name << " " << min_id;
+    for (int i = 0; i < k; i++)
+    {
+        for (int j = k - 1; j > i; j--)
+        {
+            if (a[j] > a[j - 1])
+            {
+                b = a[j - 1];
+                a[j - 1] = a[j];
+                a[j] = b;
+            }
+        }
+    }
+    for (int i = 0; i < k; i++)
+    {
+        if (a[i] != 0 && a[i] != 1 && a[i + 1] != 0 && a[i + 1] != 1)
+            cout << a[i] << " ";
+        else if (a[i] != 0 && a[i] != 1)
+            cout << a[i];
+    }
     return 0;
 }
